@@ -5,7 +5,7 @@ function singleImageDeleteController($params) {
     $connection = getConnection();
     deleteImage($connection, $params["id"]);
     return [
-        "redirect:/",
+        "redirect:/php_training",
         [
         ]
         ];
@@ -28,7 +28,7 @@ function singleImageController($params) {
     return [
         "single",
         [
-            "title" => $picture["title"],
+            "title" => $picture->title,
             "picture" => $picture
         ]
         ];
@@ -74,7 +74,7 @@ function singleImageEditController($params) {
 function logoutSubmitController() {
     unset($_SESSION["user"]);
     return [
-        "redirect:/php-basics-materials", [
+        "redirect:/php_training", [
         ]
     ];
 }
@@ -97,10 +97,10 @@ function loginSubmitController() {
         $_SESSION["user"] = [
             "name" => $user["name"]
         ];
-        $view = "redirect:/php-basics-materials";
+        $view = "redirect:/php_training";
     } else {
         $_SESSION["containsError"] = 1;
-        $view = "redirect:/php-basics-materials/login";
+        $view = "redirect:/php_training/login";
     }
     return [
         $view, []

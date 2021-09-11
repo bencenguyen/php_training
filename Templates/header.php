@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-1g navbar-dark bg-dark">
-    <a class="navbar-brand" href="/php-basics-materials">My Photos</a>
+    <a class="navbar-brand" href="/php_training">My Photos</a>
     <?php if($user["loggedIn"]): ?>
 
     <div class="dropdown">

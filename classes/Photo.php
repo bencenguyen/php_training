@@ -2,10 +2,10 @@
 
 class Photo {
     
-    private $id;
-    private $title;
-    private $url;
-    private $thumbnail;
+    public $id;
+    public $title;
+    public $url;
+    public $thumbnail;
 
     public function __construct($id, $title, $url, $thumbnail)
     {

@@ -4,8 +4,14 @@ function getPhotosPaginated($connection, $size, $offset) {
     if ($statement = mysqli_prepare($connection, 'SELECT * FROM photos LIMIT ? OFFSET ?')) {
         mysqli_stmt_bind_param($statement, "ii", $size, $offset);
         mysqli_stmt_execute($statement);
+
         $result = mysqli_stmt_get_result($statement);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+        return array_map(function($row) {
+            return new Photo($row["id"], $row["title"], $row["url"], $row["thumbnail"]);
+        }, $rows);
+        
     } else {
         logMessage('ERROR','Query error: '. mysqli_error($connection));
         errorPage();
@@ -72,6 +78,7 @@ function route($action, $callable, $method = "GET") {
 function dispatch($action, $notFound) {
     global $routes;
     $method = $_SERVER["REQUEST_METHOD"]; // POST GET PATCH DELETE
+
     if (array_key_exists($method, $routes)) {
         foreach ($routes[$method] as $pattern => $callable) {
             if (preg_match($pattern, $action, $matches)) {
@@ -86,8 +93,12 @@ function getImageById($connection, $id) {
     if ($statement = mysqli_prepare($connection, 'SELECT * FROM photos WHERE id = ?')) {
         mysqli_stmt_bind_param($statement, "i", $id);
         mysqli_stmt_execute($statement);
+
         $result = mysqli_stmt_get_result($statement);
-        return mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
+
+        return new Photo($row["id"], $row["title"], $row["url"], $row["thumbnail"]);
+
     } else {
         logMessage('ERROR','Query error: '. mysqli_error($connection));
         errorPage();
