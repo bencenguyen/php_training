@@ -14,13 +14,8 @@ require_once "classes/Dispatcher.php";
 require_once "classes/Application.php";
 require_once "classes/Response.php";
 require_once "classes/ResponseEmitter.php";
-
-$response = new Response("{}", [
-    "Content-Type" => "application/json"
-], 404, "ok");
-$emitter = new ResponseEmitter();
-$emitter->emit($response);
-
-die;
+require_once "classes/ResponseFactory.php";
+require_once "classes/ViewRenderer.php";
+require_once "classes/ModelAndView.php";
 
 (new Application())->start();

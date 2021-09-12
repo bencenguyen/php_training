@@ -11,6 +11,8 @@ class Application
         $cleaned    = explode("?", $uri)[0];
 
         $dispatcher = new Dispatcher("notFoundController");
+        $responseFactory = new ResponseFactory(new ViewRenderer());
+        $responseEmitter = new ResponseEmitter();
 
         $dispatcher->addRoute('/php_training/', 'homeController');
         $dispatcher->addRoute('/php_training/about', 'aboutController');
@@ -23,20 +25,12 @@ class Application
         $dispatcher->addRoute('/php_training/logout', 'logoutSubmitController');
         $dispatcher->addRoute('/php_training/login', 'loginSubmitController', "POST");
 
-        list($view, $data) = $dispatcher->dispatch($cleaned);
+        $controllerResult = $dispatcher->dispatch($cleaned);
 
-        $data["user"] = createUser();
+        // $data["user"] = createUser();
 
-        if (preg_match("%^redirect\:%", $view)) {
-            $redirectTarget = substr($view, 9);
-            header("Location:" . $redirectTarget);
-            die;
-        }
+        $response = $responseFactory->createResponse($controllerResult);
+        $responseEmitter->emit($response);
 
-        extract($data);
-
-        ob_clean();
-
-        require_once "templates/layout.php";
     }
 }
