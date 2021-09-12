@@ -14,4 +14,20 @@ class Response {
         $this->statusCode   = $statusCode;
         $this->reasonPhrase = $reasonPhrase;
     }
+
+    public function getBody() {
+        return $this->body;
+    }
+
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    public function getStatusCode() {
+        return $this->statusCode;
+    }
+
+    public function getReasonPhrase() {
+        return $this->reasonPhrase;
+    }
 }
