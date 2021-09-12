@@ -65,7 +65,7 @@ function singleImageEditController($params) {
     $connection = getConnection();
     updateImage($connection, $id, $title);
     return [
-        "redirect:/image/$id",
+        "redirect:/php_training/image/$id",
         [
         ]
         ];

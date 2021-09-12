@@ -8,6 +8,7 @@ require_once "classes/Photo.php";
 require_once "core/config.php";
 require_once "core/functions.php";
 require_once "core/controllers.php";
+require_once "classes/Dispatcher.php";
 require_once "classes/Application.php";
 
 (new Application())->start();
