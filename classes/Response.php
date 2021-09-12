@@ -1,6 +1,7 @@
 <?php
 
-class Response {
+class Response
+{
 
     private $body;
     private $headers;
@@ -15,19 +16,23 @@ class Response {
         $this->reasonPhrase = $reasonPhrase;
     }
 
-    public function getBody() {
+    public function getBody()
+    {
         return $this->body;
     }
 
-    public function getHeaders() {
+    public function getHeaders()
+    {
         return $this->headers;
     }
 
-    public function getStatusCode() {
+    public function getStatusCode()
+    {
         return $this->statusCode;
     }
 
-    public function getReasonPhrase() {
+    public function getReasonPhrase()
+    {
         return $this->reasonPhrase;
     }
 }

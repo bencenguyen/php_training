@@ -1,8 +1,10 @@
 <?php
 
-class Application {
+class Application
+{
 
-    public function start() {
+    public function start()
+    {
         ob_start();
 
         $uri        = $_SERVER["REQUEST_URI"];
@@ -27,7 +29,7 @@ class Application {
 
         if (preg_match("%^redirect\:%", $view)) {
             $redirectTarget = substr($view, 9);
-            header("Location:".$redirectTarget);
+            header("Location:" . $redirectTarget);
             die;
         }
 

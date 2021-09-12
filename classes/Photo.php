@@ -1,7 +1,8 @@
 <?php
 
-class Photo {
-    
+class Photo
+{
+
     private $id;
     private $title;
     private $url;
@@ -15,21 +16,23 @@ class Photo {
         $this->thumbnail = $thumbnail;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
-    
-    public function getUrl() {
+
+    public function getUrl()
+    {
         return $this->url;
     }
-    
-    public function getThumbnail() {
+
+    public function getThumbnail()
+    {
         return $this->thumbnail;
     }
-
-
 }
