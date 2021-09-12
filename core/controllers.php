@@ -14,9 +14,10 @@ function singleImageDeleteController($params) {
 function loginFormController() {
     $containsError = array_key_exists("containsError", $_SESSION);
     unset($_SESSION["containsError"]);
+
     return [
         "login", [
-            "title" => "Login",
+            "title"         => "Login",
             "containsError" => $containsError
         ]
     ];    
@@ -24,11 +25,12 @@ function loginFormController() {
 
 function singleImageController($params) {
     $connection = getConnection();
-    $picture = getImageById($connection, $params["id"]);
+    $picture    = getImageById($connection, $params["id"]);
+
     return [
         "single",
         [
-            "title" => $picture->getTitle(),
+            "title"   => $picture->getTitle(),
             "picture" => $picture
         ]
         ];
@@ -36,23 +38,23 @@ function singleImageController($params) {
 
 
 function homeController() {
-    $size = $_GET["size"] ?? 15;
-    $page = $_GET["page"] ?? 1;    
+    $size       = $_GET["size"] ?? 15;
+    $page       = $_GET["page"] ?? 1;    
     $connection = getConnection();
-    $total = getTotal($connection);
-    $offset = ($page - 1) * $size;
-    $content = getPhotosPaginated($connection, $size, $offset);
+    $total      = getTotal($connection);
+    $offset     = ($page - 1) * $size;
+    $content    = getPhotosPaginated($connection, $size, $offset);
     $possiblePageSizes = [10, 25, 30, 40, 50];
   
     return [
         "home",
         [
-            "title" => "Home",
-            "content" => $content,
-            "total" => $total,
-            "size" => $size,
-            "page" => $page,
-            "offset" => $offset,
+            "title"             => "Home",
+            "content"           => $content,
+            "total"             => $total,
+            "size"              => $size,
+            "page"              => $page,
+            "offset"            => $offset,
             "possiblePageSizes" => $possiblePageSizes
         ]
     ];
@@ -60,8 +62,8 @@ function homeController() {
 
 
 function singleImageEditController($params) {
-    $title = $_POST["title"];
-    $id = $params["id"];
+    $title      = $_POST["title"];
+    $id         = $params["id"];
     $connection = getConnection();
     updateImage($connection, $id, $title);
     return [
@@ -73,6 +75,7 @@ function singleImageEditController($params) {
 
 function logoutSubmitController() {
     unset($_SESSION["user"]);
+
     return [
         "redirect:/php_training", [
         ]
@@ -91,17 +94,20 @@ function notFoundController() {
 
 function loginSubmitController() {
     $password = trim($_POST["password"]);
-    $email = trim($_POST["email"]);
-    $user = loginUser(getConnection(), $email, $password);
+    $email    = trim($_POST["email"]);
+    $user     = loginUser(getConnection(), $email, $password);
+
     if ($user != null) {
         $_SESSION["user"] = [
             "name" => $user["name"]
         ];
         $view = "redirect:/php_training";
+
     } else {
         $_SESSION["containsError"] = 1;
         $view = "redirect:/php_training/login";
     }
+
     return [
         $view, []
     ];    
