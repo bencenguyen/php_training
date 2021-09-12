@@ -12,9 +12,9 @@
     </form>
     <?php require "pagination.php"; ?>
     <?php foreach ($content as $picture): ?>
-        <a href="/php_training/image/<?php esc($picture->id) ?>">
-        <img title="<?php esc($picture->title) ?>" 
-        src="<?php esc($picture->thumbnail) ?>" /></a>
+        <a href="/php_training/image/<?php esc($picture->getId()) ?>">
+        <img title="<?php esc($picture->getTitle()) ?>" 
+        src="<?php esc($picture->getThumbnail()) ?>" /></a>
     <?php endforeach; ?>
     <?php require "pagination.php"; ?>
 </main>

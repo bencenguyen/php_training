@@ -2,10 +2,10 @@
 
 class Photo {
     
-    public $id;
-    public $title;
-    public $url;
-    public $thumbnail;
+    private $id;
+    private $title;
+    private $url;
+    private $thumbnail;
 
     public function __construct($id, $title, $url, $thumbnail)
     {
@@ -14,4 +14,22 @@ class Photo {
         $this->url = $url;
         $this->thumbnail = $thumbnail;
     }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+    
+    public function getUrl() {
+        return $this->url;
+    }
+    
+    public function getThumbnail() {
+        return $this->thumbnail;
+    }
+
+
 }
