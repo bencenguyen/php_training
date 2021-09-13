@@ -10,7 +10,7 @@ class Application
         $uri        = $_SERVER["REQUEST_URI"];
         $cleaned    = explode("?", $uri)[0];
 
-        $dispatcher = new Dispatcher("notFoundController");
+        $dispatcher      = new Dispatcher("notFoundController");
         $responseFactory = new ResponseFactory(new ViewRenderer());
         $responseEmitter = new ResponseEmitter();
 
@@ -26,8 +26,6 @@ class Application
         $dispatcher->addRoute('/php_training/login', 'loginSubmitController', "POST");
 
         $controllerResult = $dispatcher->dispatch($cleaned);
-
-        // $data["user"] = createUser();
 
         $response = $responseFactory->createResponse($controllerResult);
         $responseEmitter->emit($response);
