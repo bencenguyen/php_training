@@ -1,5 +1,5 @@
 <main class="container pt-5">
-    <form method="post" action="/php-basics-materials/login">
+    <form method="post" action="/php_training/login">
         <?php if($containsError): ?>
             <div class="alert alert-danger">
                 The username or password aren't matching.
