@@ -12,4 +12,10 @@ require_once "core/controllers.php";
 
 require_once "autoload.php";
 
-(new \Application())->start();
+// $serviceContainer = new ServiceContainer(include "services.php");
+// $serviceContainer->put("basePath", realpath(__DIR__));
+
+// $responseFactory = $serviceContainer->get("responseFactory");
+
+
+(new \Application(new ServiceContainer(include "services.php")))->start(realpath(__DIR__));
