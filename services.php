@@ -1,7 +1,5 @@
 <?php
 
-use Controllers\NotFoundController;
-
 return [
     "responseFactory" => function(ServiceContainer $container) {
         return new ResponseFactory($container->get("viewRenderer"));
