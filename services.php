@@ -1,5 +1,7 @@
 <?php
 
+use Controllers\NotFoundController;
+
 return [
     "responseFactory" => function(ServiceContainer $container) {
         return new ResponseFactory($container->get("viewRenderer"));
@@ -41,8 +43,12 @@ return [
         return new Controllers\LogoutSubmitController();
     },
 
+    "notFoundController" => function() {
+        return new Controllers\NotFoundController();
+    },
+
     "dispatcher" => function(ServiceContainer $container) {
-        $dispatcher = new Dispatcher($container, "notFoundController");
+        $dispatcher = new Dispatcher($container, "notFoundController@handle");
 
         $dispatcher->addRoute('/php_training/', 'homeController@handle');
 

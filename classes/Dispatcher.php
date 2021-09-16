@@ -25,17 +25,21 @@ class Dispatcher
         if (array_key_exists($method, $this->routes)) {
             foreach ($this->routes[$method] as $pattern => $callable) {
                 if (preg_match($pattern, $action, $matches)) {
-                    if (strpos($callable, "@")) {
-                        return $this->invokeFromContainer($callable, $matches);
-                    } else {
-                        return $callable($matches);
-                    }
+                    return $this->invokeHandler($callable, $matches);
                 }
             }
         }
 
+        return $this->invokeHandler($this->notFoundController, $matches);
+    }
 
-        return ($this->notFoundController)();
+    private function invokeHandler($callable, $matches)
+    {
+        if (strpos($callable, "@")) {
+            return $this->invokeFromContainer($callable, $matches);
+        } else {
+            return $callable($matches);
+        }
     }
 
     private function invokeFromContainer(string $callable, $matches)

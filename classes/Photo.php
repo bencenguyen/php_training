@@ -4,7 +4,6 @@ namespace Letscode\PhotoApp\Model\Photo;
 
 class Photo
 {
-
     private $id;
     private $title;
     private $url;
