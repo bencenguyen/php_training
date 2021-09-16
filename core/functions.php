@@ -1,6 +1,7 @@
 <?php
 
 use Letscode\PhotoApp\Model\Photo\Photo;
+use Exception\SqlException;
 
 function getPhotosPaginated($connection, $size, $offset)
 {
@@ -16,8 +17,7 @@ function getPhotosPaginated($connection, $size, $offset)
         }, $rows);
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
@@ -28,10 +28,6 @@ function logMessage($level, $message)
     fclose($file);
 }
 
-function errorPage()
-{
-    include "templates/error.php";
-}
 
 function getTotal($connection)
 {
@@ -40,8 +36,7 @@ function getTotal($connection)
         return $row['count'];
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
@@ -90,8 +85,7 @@ function getImageById($connection, $id)
         return new Photo($row["id"], $row["title"], $row["url"], $row["thumbnail"]);
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
@@ -101,8 +95,7 @@ function getConnection()
     $connection = mysqli_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
     
     if (!$connection) {
-        logMessage('ERROR', "Connection error: " . mysqli_connect_error());
-        errorPage();
+        throw new SqlException('Connection error: ' . mysqli_error($connection));
     }
 
     return $connection;
@@ -115,8 +108,7 @@ function updateImage($connection, $id, $title)
         mysqli_stmt_execute($statement);
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
@@ -137,8 +129,7 @@ function loginUser($connection, $email, $password)
         }
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
@@ -155,8 +146,7 @@ function deleteImage($connection, $id)
         mysqli_stmt_execute($statement);
 
     } else {
-        logMessage('ERROR', 'Query error: ' . mysqli_error($connection));
-        errorPage();
+        throw new SqlException('Query error: ' . mysqli_error($connection));
     }
 }
 
