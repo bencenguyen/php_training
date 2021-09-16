@@ -4,10 +4,9 @@ namespace Controllers;
 
 class loginFormController
 {
-    function show()
+    public function show()
     {
-        $containsError = array_key_exists("containsError", $_SESSION);
-        unset($_SESSION["containsError"]);
+        $containsError = $this->checkForError();
 
         return [
             "login", [
@@ -15,5 +14,13 @@ class loginFormController
                 "containsError" => $containsError
             ]
         ];
+    }
+
+    private function checkForError() 
+    {
+        $containsError = array_key_exists("containsError", $_SESSION);
+        unset($_SESSION["containsError"]);
+
+        return $containsError;
     }
 }

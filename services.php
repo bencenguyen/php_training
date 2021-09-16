@@ -40,28 +40,32 @@ return [
         return new Services\PhotoService($container->get("connection"));
     },
 
+    "authService" => function(ServiceContainer $container) {
+        return new Services\AuthService($container->get("connection"));
+    },
+
     "singleImageController" => function(ServiceContainer $container) {
         return new Controllers\SingleImageController($container->get("photoService"));
     },
 
-    "singleImageEditController" => function() {
-        return new Controllers\SingleImageEditController();
+    "singleImageEditController" => function(ServiceContainer $container) {
+        return new Controllers\SingleImageEditController($container->get("photoService"));
     },
 
-    "singleImageDeleteController" => function() {
-        return new Controllers\SingleImageDeleteController();
+    "singleImageDeleteController" => function(ServiceContainer $container) {
+        return new Controllers\SingleImageDeleteController($container->get("photoService"));
     },
 
     "loginFormController" => function() {
         return new Controllers\LoginFormController();
     },
 
-    "loginSubmitController" => function() {
-        return new Controllers\LoginSubmitController();
+    "loginSubmitController" => function(ServiceContainer $container) {
+        return new Controllers\LoginSubmitController($container->get("authService"));
     },
 
-    "logoutSubmitController" => function() {
-        return new Controllers\LogoutSubmitController();
+    "logoutSubmitController" => function(ServiceContainer $container) {
+        return new Controllers\LogoutSubmitController($container->get("authService"));
     },
 
     "notFoundController" => function() {

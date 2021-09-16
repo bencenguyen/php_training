@@ -13,7 +13,6 @@ class HomeController
         $this->photoService = $photoService;
     }
 
-
     function handle()
     {
         $size       = $_GET["size"] ?? 15;
