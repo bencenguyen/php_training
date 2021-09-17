@@ -7,10 +7,12 @@ class Request
     private $cookies;
     private $params;
     private $uri;
+    private $method;
 
-    public function __construct($uri, $body=null, $headers=[], $cookies=[], $params=[])
+    public function __construct($uri, $method, $body=null, $headers=[], $cookies=[], $params=[])
     {
         $this->uri = $uri;
+        $this->method = $method;
         $this->body = $body;
         $this->headers = $headers;
         $this->cookies = $cookies;
@@ -40,5 +42,10 @@ class Request
     public function getUri()
     {
         return $this->uri;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
     }
 }

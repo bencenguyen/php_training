@@ -18,9 +18,10 @@ class Dispatcher
         $this->routes[strtoupper($method)][$pattern] = $callable;
     }
 
-    public function dispatch($action)
+    public function dispatch(Request $request)
     {
-        $method = $_SERVER["REQUEST_METHOD"];
+        $method = $request->getMethod();
+        $action = explode("?", $request->getUri())[0];
 
         if (array_key_exists($method, $this->routes)) {
             foreach ($this->routes[$method] as $pattern => $callable) {

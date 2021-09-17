@@ -1,7 +1,8 @@
 <?php
 
 use Exception\SqlException;
-
+use Middleware\DispatchingMiddleware;
+use Middleware\MiddlewareStack;
 
 return [
     "responseFactory" => function(ServiceContainer $container) {
@@ -70,6 +71,18 @@ return [
 
     "notFoundController" => function() {
         return new Controllers\NotFoundController();
+    },
+
+    "request" => function() {
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], "", getallheaders(), $_COOKIE, $_POST);
+    },
+
+    "pipeline" => function(ServiceContainer $container) {
+        $pipeline = new MiddlewareStack();
+        $dispatcherMiddleware = new DispatchingMiddleware($container->get("dispatcher"), $container->get("responseFactory"));
+        $pipeline->addMiddleware($dispatcherMiddleware);
+
+        return $pipeline;
     },
 
     "dispatcher" => function(ServiceContainer $container) {
