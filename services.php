@@ -1,6 +1,7 @@
 <?php
 
 use Exception\SqlException;
+use Middleware\AuthorizationMiddleware;
 use Middleware\DispatchingMiddleware;
 use Middleware\MiddlewareStack;
 
@@ -79,7 +80,11 @@ return [
 
     "pipeline" => function(ServiceContainer $container) {
         $pipeline = new MiddlewareStack();
+
+        $authMiddleware = new AuthorizationMiddleware(["/php_training/"], $container->get("authService"), "/php_training/login");
         $dispatcherMiddleware = new DispatchingMiddleware($container->get("dispatcher"), $container->get("responseFactory"));
+        
+        $pipeline->addMiddleware($authMiddleware);
         $pipeline->addMiddleware($dispatcherMiddleware);
 
         return $pipeline;

@@ -35,4 +35,13 @@ class Response
     {
         return $this->reasonPhrase;
     }
+
+    public static function redirect($url)
+    {
+        return new Response(
+            "", 
+            ["Location" => $url],
+            302,
+            "Found");
+    }
 }

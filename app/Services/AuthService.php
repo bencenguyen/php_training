@@ -35,6 +35,11 @@ class AuthService
         }
     }
 
+    public function check() 
+    {
+        return array_key_exists("user", $_SESSION);
+    }
+
     public function logout()
     {
         unset($_SESSION["user"]);
