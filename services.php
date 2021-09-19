@@ -75,7 +75,7 @@ return [
     },
 
     "request" => function() {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], "", getallheaders(), $_COOKIE, $_POST);
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], file_get_contents("php://input"), getallheaders(), $_COOKIE, array_merge($_POST, $_SESSION));
     },
 
     "pipeline" => function(ServiceContainer $container) {

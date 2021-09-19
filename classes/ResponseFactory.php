@@ -9,7 +9,7 @@ class ResponseFactory
         $this->viewRenderer = $viewRenderer;
     }
 
-    public function createResponse($controllerResult)
+    public function createResponse($controllerResult, array $params)
     {
         if (is_array($controllerResult)) {
 
@@ -21,7 +21,7 @@ class ResponseFactory
 
             } else {
 
-                $modelAndView = new ModelAndView($controllerResult[0], $controllerResult[1]);
+                $modelAndView = new ModelAndView($controllerResult[0], array_merge($controllerResult[1], $params));
     
                 return new Response($this->viewRenderer->render($modelAndView), [], 200, "ok");
             }

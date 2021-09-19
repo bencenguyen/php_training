@@ -20,6 +20,6 @@ class DispatchingMiddleware implements Middleware
     {
         $controllerResult = $this->dispatcher->dispatch($request);
         
-        return $this->responseFactory->createResponse($controllerResult);
+        return $this->responseFactory->createResponse($controllerResult, $request->getParams());
     }
 }
