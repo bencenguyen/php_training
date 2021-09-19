@@ -43,7 +43,7 @@ return [
     },
 
     "authService" => function(ServiceContainer $container) {
-        return new Services\AuthService($container->get("connection"));
+        return new Services\AuthService($container->get("connection"), $container->get("session"));
     },
 
     "singleImageController" => function(ServiceContainer $container) {
@@ -74,8 +74,12 @@ return [
         return new Controllers\NotFoundController();
     },
 
-    "request" => function() {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], file_get_contents("php://input"), getallheaders(), $_COOKIE, array_merge($_POST, $_SESSION));
+    "session" => function() {
+        return new Session();
+    },
+
+    "request" => function(ServiceContainer $container) {
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, $_POST);
     },
 
     "pipeline" => function(ServiceContainer $container) {

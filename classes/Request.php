@@ -8,8 +8,9 @@ class Request
     private $params;
     private $uri;
     private $method;
+    private $session;
 
-    public function __construct($uri, $method, $body=null, $headers=[], $cookies=[], $params=[])
+    public function __construct($uri, $method, Session $session, $body=null, $headers=[], $cookies=[], $params=[])
     {
         $this->uri = $uri;
         $this->method = $method;
@@ -17,6 +18,7 @@ class Request
         $this->headers = $headers;
         $this->cookies = $cookies;
         $this->params = $params;
+        $this->session = $session;
     }
 
     public function getBody()
@@ -47,5 +49,10 @@ class Request
     public function getMethod()
     {
         return $this->method;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
     }
 }

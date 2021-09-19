@@ -6,9 +6,9 @@ interface Storage
 
     function get($key);
 
-    function put($key);
+    function put($key, $value);
 
     function remove($key);
 
-    function clear($key);
+    function clear();
 }

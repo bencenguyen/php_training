@@ -3,14 +3,17 @@
 namespace Services;
 
 use Exception\SqlException;
+use Session;
 
 class AuthService
 {
     private $connection;
+    private $session;
 
-    public function __construct(\mysqli $connection)
+    public function __construct(\mysqli $connection, Session $session)
     {
         $this->connection = $connection;
+        $this->session = $session;
     }
 
     public function loginUser($email, $password)
@@ -23,9 +26,9 @@ class AuthService
             $record = mysqli_fetch_assoc($result);
 
             if ($record != null && password_verify($password, $record["password"])) {
-                $_SESSION["user"] = [
+               $this->session->put("user", [
                     "name" => $record["name"]
-                ];
+                ]);
                 
                 return true;
             } 
@@ -37,11 +40,11 @@ class AuthService
 
     public function check() 
     {
-        return array_key_exists("user", $_SESSION);
+        return $this->session->has("user");
     }
 
     public function logout()
     {
-        unset($_SESSION["user"]);
+        $this->session->remove("user");
     }
 }
