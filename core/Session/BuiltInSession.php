@@ -1,6 +1,8 @@
 <?php
 
-class Session implements Storage
+namespace Session;
+
+class BuiltInSession implements Session
 {
 
     public function has($key)

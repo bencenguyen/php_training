@@ -3,7 +3,7 @@
 namespace Services;
 
 use Exception\SqlException;
-use Session;
+use Session\Session;
 
 class AuthService
 {

@@ -1,9 +1,10 @@
 <?php
 
 use Exception\SqlException;
-use Middleware\AuthorizationMiddleware;
-use Middleware\DispatchingMiddleware;
+use Session\SessionFactory;
 use Middleware\MiddlewareStack;
+use Middleware\DispatchingMiddleware;
+use Middleware\AuthorizationMiddleware;
 
 return [
     "responseFactory" => function(ServiceContainer $container) {
@@ -74,8 +75,9 @@ return [
         return new Controllers\NotFoundController();
     },
 
-    "session" => function() {
-        return new Session();
+    "session" => function(ServiceContainer $container) {
+        $sessionConfig = $container->get("config")["session"];
+        return SessionFactory::build($sessionConfig["driver"], $sessionConfig["config"]);
     },
 
     "request" => function(ServiceContainer $container) {
