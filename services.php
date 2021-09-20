@@ -59,12 +59,12 @@ return [
         return new Controllers\SingleImageDeleteController($container->get("photoService"));
     },
 
-    "loginFormController" => function() {
-        return new Controllers\LoginFormController();
+    "loginFormController" => function(ServiceContainer $container) {
+        return new Controllers\LoginFormController($container->get("session"));
     },
 
     "loginSubmitController" => function(ServiceContainer $container) {
-        return new Controllers\LoginSubmitController($container->get("authService"));
+        return new Controllers\LoginSubmitController($container->get("authService"), $container->get("session"));
     },
 
     "logoutSubmitController" => function(ServiceContainer $container) {
@@ -75,6 +75,14 @@ return [
         return new Controllers\NotFoundController();
     },
 
+    "forgotPasswordController" => function(ServiceContainer $container) {
+        return new Controllers\NotFoundController($container->get("session"));
+    },
+
+    "forgotPasswordSubmitController" => function(ServiceContainer $container) {
+        return new Controllers\NotFoundController($container->get("session"));
+    },
+
     "session" => function(ServiceContainer $container) {
         $sessionConfig = $container->get("config")["session"];
         return SessionFactory::build($sessionConfig["driver"], $sessionConfig["config"]);
@@ -82,6 +90,15 @@ return [
 
     "request" => function(ServiceContainer $container) {
         return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, $_POST);
+    },
+
+    "mailer" => function(ServiceContainer $container) {
+        $mailConfig = $container->get("config")["mail"];
+        $transport = (new Swift_SmtpTransport($mailConfig["host"], $mailConfig["port"]))
+            ->setUsername($mailConfig["username"])
+            ->setPassword($mailConfig["password"]);
+
+            return new Swift_Mailer($transport);
     },
 
     "pipeline" => function(ServiceContainer $container) {
@@ -108,6 +125,9 @@ return [
         $dispatcher->addRoute('/php_training/login', 'loginFormController@show');
         $dispatcher->addRoute('/php_training/logout', 'logoutSubmitController@submit');
         $dispatcher->addRoute('/php_training/login', 'loginSubmitController@submit', "POST");
+
+        $dispatcher->addRoute('/php_training/login', 'forgotPasswordController@show');
+        $dispatcher->addRoute('/php_training/login', 'forgotPasswordSubmitController@submit', "POST");
 
         return $dispatcher;
     }

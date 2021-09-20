@@ -1,10 +1,12 @@
 <main class="container pt-5">
     <form method="post" action="/php_training/login">
-        <?php if($containsError): ?>
+        <?php if ($containsError) : ?>
             <div class="alert alert-danger">
                 The username or password aren't matching.
             </div>
         <?php endif ?>
+        <!-- <?php print_r(get_defined_vars());  
+                var_dump($containsError)?> -->
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address...">
@@ -15,4 +17,9 @@
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
+    <div style="padding-top: 20px; text-align: center">
+        <a role="button" class="btn btn-info" href="/php_training/register">Register</a>
+        <a role="button" class="btn btn-info" href="/php_training/forgotpass">Forgot Password</a>
+    </div>
 </main>
+

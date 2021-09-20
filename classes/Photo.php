@@ -1,7 +1,5 @@
 <?php
 
-namespace Letscode\PhotoApp\Model\Photo;
-
 class Photo
 {
     private $id;

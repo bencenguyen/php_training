@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     'db_host' => 'localhost',
@@ -10,5 +10,12 @@ return [
         "config" => [
             "folder" => realpath(__DIR__) . "/storage/sessions"
         ]
+    ],
+    
+    "mail" => [
+        "username" => '2df01438431ae5',
+        "password" => 'faa85ccb16029e',
+        "host"     => 'smtp.mailtrap.io',
+        "port"     => 2525
     ]
 ];

@@ -2,7 +2,7 @@
 
 namespace Services;
 
-use Letscode\PhotoApp\Model\Photo\Photo;
+use Photo;
 use Exception\SqlException;
 
 
