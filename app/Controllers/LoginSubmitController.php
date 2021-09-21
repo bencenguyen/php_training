@@ -38,6 +38,6 @@ class LoginSubmitController
 
     private function markAsLoginFailed()
     {
-        $this->session->put("cointainsError", 1);
+        $this->session->put("containsError", 1);
     }
 }

@@ -5,8 +5,6 @@
                 The username or password aren't matching.
             </div>
         <?php endif ?>
-        <!-- <?php print_r(get_defined_vars());  
-                var_dump($containsError)?> -->
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address...">

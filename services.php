@@ -66,21 +66,33 @@ return [
     "loginSubmitController" => function(ServiceContainer $container) {
         return new Controllers\LoginSubmitController($container->get("authService"), $container->get("session"));
     },
-
+    
     "logoutSubmitController" => function(ServiceContainer $container) {
         return new Controllers\LogoutSubmitController($container->get("authService"));
     },
-
+    
     "notFoundController" => function() {
         return new Controllers\NotFoundController();
     },
-
+    
     "forgotPasswordController" => function(ServiceContainer $container) {
-        return new Controllers\NotFoundController($container->get("session"));
+        return new Controllers\ForgotPasswordController($container->get("session"));
+    },
+    
+    "forgotPasswordSubmitController" => function(ServiceContainer $container) {
+        return new Controllers\ForgotPasswordSubmitController($container->get("request"), $container->get("forgotPasswordService"));
+    },
+    
+    "forgotPasswordService" => function(ServiceContainer $container) {
+        return new \Services\ForgotPasswordService($container->get("connection"), $container->get("mailer"), $container->get("baseUrl"));
     },
 
-    "forgotPasswordSubmitController" => function(ServiceContainer $container) {
-        return new Controllers\NotFoundController($container->get("session"));
+    "passwordResetController" => function(ServiceContainer $container) {
+        return new Controllers\PasswordResetController($container->get("request"));
+    },
+
+    "passwordResetSubmitController" => function(ServiceContainer $container) {
+        return new Controllers\PasswordResetSubmitController($container->get("request"), $container->get("forgotPasswordService"));
     },
 
     "session" => function(ServiceContainer $container) {
@@ -89,7 +101,7 @@ return [
     },
 
     "request" => function(ServiceContainer $container) {
-        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, $_POST);
+        return new Request($_SERVER["REQUEST_URI"], $_SERVER["REQUEST_METHOD"], $container->get("session"), file_get_contents("php://input"), getallheaders(), $_COOKIE, array_merge($_GET, $_POST));
     },
 
     "mailer" => function(ServiceContainer $container) {
@@ -113,6 +125,11 @@ return [
         return $pipeline;
     },
 
+    "baseUrl" => function() {
+        $protocol = strpos($_SERVER["SERVER_PROTOCOL"], "https") === 0 ? "https://" : "http://";
+        return $protocol . $_SERVER["HTTP_HOST"];
+    },
+
     "dispatcher" => function(ServiceContainer $container) {
         $dispatcher = new Dispatcher($container, "notFoundController@handle");
 
@@ -126,8 +143,11 @@ return [
         $dispatcher->addRoute('/php_training/logout', 'logoutSubmitController@submit');
         $dispatcher->addRoute('/php_training/login', 'loginSubmitController@submit', "POST");
 
-        $dispatcher->addRoute('/php_training/login', 'forgotPasswordController@show');
-        $dispatcher->addRoute('/php_training/login', 'forgotPasswordSubmitController@submit', "POST");
+        $dispatcher->addRoute('/php_training/forgotpass', 'forgotPasswordController@show');
+        $dispatcher->addRoute('/php_training/forgotpass', 'forgotPasswordSubmitController@submit', "POST");
+
+        $dispatcher->addRoute('/php_training/reset', 'passwordResetController@show');
+        $dispatcher->addRoute('/php_training/reset', 'passwordResetSubmitController@submit', "POST");
 
         return $dispatcher;
     }
